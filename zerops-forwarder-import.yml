@@ -1,0 +1,14 @@
+services:
+  - hostname: prometheuslight
+    type: alpine@3.21
+    buildFromGit: https://github.com/zeropsio/recipe-prometheus-grafana@main
+    enableSubdomainAccess: true
+    maxContainers: 1
+    envSecrets:
+      # How long to keep data (default: 15d). Allowed units are y, w, d, h, m, s, ms (year, week, day, hour, minute, second, millisecond)
+      # RETENTION_TIME: 31d
+      # Set to central Prometheus url in format <scheme>://<host>[:port]/api/v1/write
+      CENTRAL_PROMETHEUS_URL: http://_IP_OR_DOMAIN_NAME_:9090/api/v1/write
+      # Set to central Prometheus user and password
+      CENTRAL_PROMETHEUS_USER: "_CENTRAL_PROMETHEUS_USER_"
+      CENTRAL_PROMETHEUS_PASSWORD: "_CENTRAL_PROMETHEUS_PASSWORD_"
