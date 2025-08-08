@@ -1,0 +1,47 @@
+#zeropsPreprocessor=on
+project:
+  name: central-prometheus
+  tags:
+    - zerops-recipe
+    - prometheus
+    - grafana
+
+services:
+  - hostname: grafana
+    type: alpine@3.21
+    envSecrets:
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: <@generateRandomString(<32>)>
+      GF_SECURITY_SECRET_KEY: <@generateRandomString(<32>)>
+
+    buildFromGit: https://github.com/zeropsio/recipe-prometheus-grafana@main
+    enableSubdomainAccess: true
+
+  - hostname: db
+    type: postgresql@17
+    mode: NON_HA
+    priority: 10
+
+  - hostname: prometheus
+    type: alpine@3.21
+    buildFromGit: https://github.com/zeropsio/recipe-prometheus-grafana@main
+    enableSubdomainAccess: true
+    maxContainers: 1
+    envSecrets:
+      # How long to keep data (default: 15d). Allowed units are y, w, d, h, m, s, ms (year, week, day, hour, minute, second, millisecond)
+      RETENTION_TIME: 31d
+      # How many hourly snapshot backups to keep in the object storage. If unset, defaults to 6.
+      BACKUP_COUNT: "6"
+      # If you want this instance to forward metrics to external prometheus:
+      #
+      # Set to external Prometheus url in format <scheme>://<host>[:port]/api/v1/write
+      # CENTRAL_PROMETHEUS_URL: http://_IP_OR_DOMAIN_NAME_:9090/api/v1/write
+      # Set to the external Prometheus user and password, if required
+      # CENTRAL_PROMETHEUS_USER: "_CENTRAL_PROMETHEUS_USER_"
+      # CENTRAL_PROMETHEUS_PASSWORD: "_CENTRAL_PROMETHEUS_PASSWORD_"
+
+  - hostname: backups
+    type: object-storage
+    objectStorageSize: 5
+    objectStoragePolicy: private
+    priority: 10
