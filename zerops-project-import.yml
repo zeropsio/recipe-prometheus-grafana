@@ -17,7 +17,7 @@ services:
     buildFromGit: https://github.com/zeropsio/recipe-prometheus-grafana@main
     enableSubdomainAccess: true
 
-  - hostname: db
+  - hostname: grafanadb
     type: postgresql@17
     mode: NON_HA
     priority: 10
@@ -40,7 +40,7 @@ services:
       # CENTRAL_PROMETHEUS_USER: "_CENTRAL_PROMETHEUS_USER_"
       # CENTRAL_PROMETHEUS_PASSWORD: "_CENTRAL_PROMETHEUS_PASSWORD_"
 
-  - hostname: backups
+  - hostname: prometheusbackups
     type: object-storage
     objectStorageSize: 5
     objectStoragePolicy: private

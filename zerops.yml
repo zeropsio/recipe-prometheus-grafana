@@ -39,10 +39,10 @@ zerops:
           allContainers: false
 
       envVariables:
-        data_backups_apiUrl: ${backups_apiUrl}
-        data_backups_accessKeyId: ${backups_accessKeyId}
-        data_backups_secretAccessKey: ${backups_secretAccessKey}
-        data_backups_bucketName: ${backups_bucketName}
+        data_backups_apiUrl: ${prometheusbackups_apiUrl}
+        data_backups_accessKeyId: ${prometheusbackups_accessKeyId}
+        data_backups_secretAccessKey: ${prometheusbackups_secretAccessKey}
+        data_backups_bucketName: ${prometheusbackups_bucketName}
 
   - setup: grafana
     build:
@@ -64,6 +64,6 @@ zerops:
           description: gRPC server
 
       envVariables:
-        GF_DATABASE_URL: postgres://${db_user}:${db_password}@${db_hostname}:${db_port}/${db_dbName}
+        GF_DATABASE_URL: postgres://${grafanadb_user}:${grafanadb_password}@${grafanadb_hostname}:${grafanadb_port}/${grafanadb_dbName}
         GF_DATABASE_HIGH_AVAILABILITY: "true"
         GF_LOG_MODE: syslog
