@@ -9,10 +9,7 @@ zerops:
         - curl -L -o prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/v3.5.0/prometheus-3.5.0.linux-amd64.tar.gz
         - tar -xz -C /var/www/ -f prometheus.tar.gz --strip-components=1 prometheus-3.5.0.linux-amd64/prometheus prometheus-3.5.0.linux-amd64/promtool
 
-      initCommands:
-        - zsc envReplace prometheus.yml.tmpl prometheus.yml
-
-      start: ./prometheus --web.enable-lifecycle --web.enable-admin-api --web.enable-remote-write-receiver --storage.tsdb.retention.time=${RETENTION_TIME:-15d}
+      start: ./run-prometheus.sh
 
       ports:
         - port: 9090
