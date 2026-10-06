@@ -21,8 +21,7 @@ zerops:
       initCommands:
         - zsc envReplace prometheus.yml.tmpl prometheus.yml
         # restore data from backup
-        - mkdir -p /var/www/data || true
-        - zsc object-storage restore --storage data_backups --name "${ZEROPS_StackName}-data" --ignore-non-existing /var/www/data
+        - test -d /var/www/data || zsc object-storage restore --storage data_backups --name "${ZEROPS_StackName}-data" --ignore-non-existing /var/www/data
 
       crontab:
         # periodic backup, every hour
