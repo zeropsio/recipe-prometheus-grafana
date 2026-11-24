@@ -47,7 +47,7 @@ zerops:
       base: alpine@latest
 
       prepareCommands:
-        - curl -L https://dl.grafana.com/oss/release/grafana-13.3.0.linux-amd64.tar.gz -o grafana.tar.gz
+        - curl -L https://dl.grafana.com/oss/release/grafana-13.3.1.linux-amd64.tar.gz -o grafana.tar.gz
         - tar -xz -C /var/www/ -f grafana.tar.gz --strip-components=1
         - rm grafana.tar.gz
 
